@@ -35,6 +35,8 @@ public class TodoService implements TodoServiceInterface{
     public Todos updateTodoList(Todos todo, Long id){
         if(repository.findById(id).isEmpty()){
             throw new RuntimeException("todo does not exist");
+        } else if (repository.findById(id).isPresent()) {
+            repository.deleteById(id);
         }
         return repository.save(todo);
     }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/v1/to-do")
 public class TodosController{
@@ -13,6 +14,11 @@ public class TodosController{
     public TodosController(TodoServiceInterface service){
         this.service=service;
     }
+    @GetMapping("/")
+    public String index(){
+        return "index";
+    }
+
     @GetMapping("/all")
     public List<Todos> getAllTodos(){
         return service.getAllTodos();
