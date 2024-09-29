@@ -4,6 +4,7 @@ import com.todo.todolist.model.Todos;
 import com.todo.todolist.repository.TodoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -30,6 +31,18 @@ public class TodoService implements TodoServiceInterface{
     @Override
     public Todos getTodoById(Long id){
         return repository.findById(id).orElse(null);
+    }
+    @Override
+    public List<Todos> getTodoByDate(LocalDate date){
+        return repository.findAll().stream()
+                .filter(todos -> todos.getCreatedOn().isEqual(date))
+                .toList();
+    }
+    @Override
+    public List<Todos> getTodoByName(String name){
+        return repository.findAll().stream()
+                .filter(todos ->todos.getTodo().toLowerCase().contains(name.toLowerCase()))
+                .toList();
     }
     @Override
     public Todos updateTodoList(Todos todo, Long id){

@@ -2,8 +2,11 @@ package com.todo.todolist.controller;
 
 import com.todo.todolist.model.Todos;
 import com.todo.todolist.service.TodoServiceInterface;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -14,10 +17,6 @@ public class TodosController{
     public TodosController(TodoServiceInterface service){
         this.service=service;
     }
-    @GetMapping("/")
-    public String index(){
-        return "index";
-    }
 
     @GetMapping("/all")
     public List<Todos> getAllTodos(){
@@ -26,6 +25,14 @@ public class TodosController{
     @GetMapping("/get-todo-by-id")
     public Todos getTodoById(@RequestParam Long id){
         return service.getTodoById(id);
+    }
+    @GetMapping("/get/name")
+    public ResponseEntity<List<Todos>> getTodoByName(@RequestParam String name){
+        return new ResponseEntity<>(service.getTodoByName(name), HttpStatus.OK);
+    }
+    @GetMapping("/get/by-date")
+    public ResponseEntity<List<Todos>> getTodoByDate(@RequestParam LocalDate date){
+        return new ResponseEntity<>(service.getTodoByDate(date),HttpStatus.OK);
     }
     @PostMapping("/create-new-todo")
     public Todos createNewTodo(@RequestBody Todos todo,@RequestParam Long id){
